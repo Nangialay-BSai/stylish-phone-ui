@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish Pink Phone UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="phone">
+        <div class="clock" id="clock"></div>
+        <div class="apps">
+            <button onclick="openModal('app1')">📱 App 1</button>
+            <button onclick="openModal('app2')">📷 App 2</button>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="app1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('app1')">&times;</span>
+            <h2>App 1</h2>
+            <p>This is the first app modal.</p>
+        </div>
+    </div>
+    <div id="app2" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('app2')">&times;</span>
+            <h2>App 2</h2>
+            <p>This is the second app modal.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
