@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: safar-db
+    environment:
+      POSTGRES_DB: safar
+      POSTGRES_USER: safar
+      POSTGRES_PASSWORD: safar
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: safar-redis
+    ports:
+      - "6379:6379"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: safar-backend
+    env_file:
+      - .env
+    environment:
+      - ENV=dev
+      - APP_NAME=Safar Backend
+      - DATABASE_URL=postgresql+psycopg://safar:safar@db:5432/safar
+      - REDIS_URL=redis://redis:6379/0
+      - JWT_SECRET=dev-secret-change
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips='*'
+
+volumes:
+  pgdata:
